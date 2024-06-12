@@ -1,0 +1,628 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+clear
+tput cup 3 3; echo "[1] Material para prestamo"
+
+tput cup 5 3; echo "[2] Material en prestamo"
+
+tput cup 7 3; echo "[3] Lista de usuarios"
+
+tput cup 9 3; echo "[4] Material en prestamo no devuelto"
+
+tput cup 11 3; echo "[5] Tipo de materiales"
+
+tput cup 13 3; echo "[0] Volver"
+
+tput cup 15 3; read -p "Ingrese Opcion deseada: " opcion
+
+case $opcion in
+0) clear ;;
+
+1)
+clear
+tput cup 3 13;echo "Libros para prestamo:"
+if test -e libros.txt
+then
+touch libross
+cp libros.txt libross
+librois=$(cat  libross | cut -d: -f2)
+echo $librois>>librois
+librois2=$(cat  librois)
+tput cup 5 13; echo "ISBN:"
+tput cup 5 25; echo "$librois2"
+
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+librotit=$(cat  libross | cut -d: -f3)
+echo $librotit>>librois
+librotit2=$(cat  librois)
+tput cup 7 13; echo "Titulo:"
+tput cup 7 25; echo "$librotit2"
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+libroaut=$(cat  libross | cut -d: -f4)
+echo $libroaut>>librois
+libroaut2=$(cat  librois)
+tput cup 9 13; echo "Autor:"
+tput cup 9 25; echo "$libroaut2"
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+libroasig=$(cat  libross | cut -d: -f5)
+echo $libroasig>>librois
+libroasig2=$(cat  librois)
+tput cup 11 13; echo "Asignatura:"
+tput cup 11 25; echo "$libroasig2"
+rm libross
+rm librois
+fi
+
+
+
+
+tput cup 17 13;echo "Videos para prestamo:"
+if test -e videos.txt
+then
+touch videoss
+cp videos.txt videoss
+videocod=$(cat  videoss | cut -d: -f2)
+echo $videocod>>videocod
+videocod2=$(cat  videocod)
+tput cup 19 13; echo "Codigo:"
+tput cup 19 25; echo "$videocod2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp videos.txt videoss
+videotit=$(cat   videoss | cut -d: -f3)
+echo $videotit>>videocod
+videotit2=$(cat  videocod)
+tput cup 21 13; echo "Titulo:"
+tput cup 21 25; echo "$videotit2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp videos.txt videoss
+videoaut=$(cat   videoss | cut -d: -f4)
+echo $videoaut>>videocod
+videoaut2=$(cat  videocod)
+tput cup 23 13; echo "Autor:"
+tput cup 23 25; echo "$videoaut2"
+
+rm videoss
+rm videocod
+fi
+
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+2)
+clear
+tput cup 3 13;echo "Libros prestados:"
+if test -e prestamosl.txt
+then
+touch libross
+cp prestamosl.txt libross
+librois=$(cat  libross | cut -d: -f2)
+echo $librois>>librois
+librois2=$(cat librois)
+tput cup 5 13; echo "ISBN:"
+tput cup 5 25; echo "$librois2"
+
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+librotit=$(cat  libross | cut -d: -f3)
+echo $librotit>>librois
+librotit2=$(cat librois)
+tput cup 7 13; echo "Titulo:"
+tput cup 7 25; echo "$librotit2"
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+libroaut=$(cat  libross | cut -d: -f4)
+echo $libroaut>>librois
+libroaut2=$(cat librois)
+tput cup 9 13; echo "Autor:"
+tput cup 9 25; echo "$libroaut2"
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+libroasig=$(cat  libross | cut -d: -f5)
+echo $libroasig>>librois
+libroasig2=$(cat librois)
+tput cup 11 13; echo "Asignatura:"
+tput cup 11 25; echo "$libroasig2"
+rm libross
+rm librois
+fi
+
+
+tput cup 17 13;echo "Videos  prestados:"
+if test -e prestamosv.txt
+then
+touch videoss
+cp prestamosv.txt videoss
+videocod=$(cat  videoss | cut -d: -f2)
+echo $videocod>>videocod
+videocod2=$(cat videocod)
+tput cup 19 13; echo "Codigo:"
+tput cup 19 25; echo "$videocod2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp prestamosv.txt videoss
+videotit=$(cat  videoss | cut -d: -f3)
+echo $videotit>>videocod
+videotit2=$(cat videocod)
+tput cup 21 13; echo "Titulo:"
+tput cup 21 25; echo "$videotit2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp prestamosv.txt videoss
+videoaut=$(cat  videoss | cut -d: -f4)
+echo $videoaut>>videocod
+videoaut2=$(cat videocod)
+tput cup 23 13; echo "Autor:"
+tput cup 23 25; echo "$videoaut2"
+
+rm videoss
+rm videocod
+fi
+
+
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi;;
+
+3) clear
+
+tput cup 3 13;echo "Usuarios registrados:"
+if test -e administracion.txt
+then
+touch libross
+cp administracion.txt libross
+user=$(cat  libross | cut -d: -f2)
+echo $user>>librois
+user2=$(cat librois)
+tput cup 5 13; echo "Usuario:"
+tput cup 5 25; echo "$user2"
+
+rm libross
+rm librois
+
+touch libross
+cp administracion.txt libross
+user=$(cat  libross | cut -d: -f3)
+echo $user>>librois
+user2=$(cat librois)
+tput cup 7 13; echo "Nombre:"
+tput cup 7 25; echo "$user2"
+rm libross
+rm librois
+
+touch libross
+cp administracion.txt libross
+ape=$(cat  libross | cut -d: -f4)
+echo $ape>>librois
+ape2=$(cat librois)
+tput cup 9 13; echo "Apellido:"
+tput cup 9 25; echo "$ape2"
+rm libross
+rm librois
+
+touch libross
+cp administracion.txt libross
+dire=$(cat  libross | cut -d: -f5)
+echo $dire>>librois
+dire2=$(cat librois)
+tput cup 11 13; echo "Direccion:"
+tput cup 11 25; echo "$dire2"
+rm libross
+rm librois
+
+touch libross
+cp administracion.txt libross
+tel=$(cat  libross | cut -d: -f6)
+echo $tel>>librois
+tel2=$(cat librois)
+tput cup 13 13; echo "Telefono:"
+tput cup 13 25; echo "$tel"
+rm libross
+rm librois
+
+touch libross
+cp administracion.txt libross
+ced=$(cat  libross | cut -d: -f7)
+echo $ced>>librois
+ced2=$(cat librois)
+tput cup 15 13; echo "Cedula:"
+tput cup 15 25; echo "$ced2"
+rm libross
+rm librois
+fi
+
+
+
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi ;;
+
+4) 
+clear
+echo "Material no devuelto:"
+if test -e vencidos.txt
+then
+cat vencidos.txt
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+
+;;
+
+5)
+clear
+tput cup 3 3; echo "[1] Libros"
+tput cup 5 3; echo "[2] Revistas"
+tput cup 7 3; echo "[3] Escritos"
+tput cup 9 3; echo "[4] Videos"
+tput cup 11 3; read -p "Ingrese Opcion deseada: " opcionn
+case $opcionn in
+
+1)
+clear
+tput cup 3 13;echo "Libros en biblioteca:"
+if test -e libros.txt
+then
+touch libross
+cp libros.txt libross
+librois=$(cat  libross | cut -d: -f2)
+echo $librois>>librois
+librois2=$(cat librois)
+tput cup 5 13; echo "ISBN:"
+tput cup 5 25; echo "$librois2"
+
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+librotit=$(cat  libross | cut -d: -f3)
+echo $librotit>>librois
+librotit2=$(cat librois)
+tput cup 7 13; echo "Titulo:"
+tput cup 7 25; echo "$librotit2"
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+libroaut=$(cat  libross | cut -d: -f4)
+echo $libroaut>>librois
+libroaut2=$(cat librois)
+tput cup 9 13; echo "Autor:"
+tput cup 9 25; echo "$libroaut2"
+rm libross
+rm librois
+
+touch libross
+cp libros.txt libross
+libroasig=$(cat  libross | cut -d: -f5)
+echo $libroasig>>librois
+libroasig2=$(cat librois)
+tput cup 11 13; echo "Asignatura:"
+tput cup 11 25; echo "$libroasig2"
+rm libross
+rm librois
+fi
+
+
+tput cup 17 13;echo "Libros prestados:"
+if test -e prestamosl.txt
+then
+touch libross
+cp prestamosl.txt libross
+librois=$(cat  libross | cut -d: -f2)
+echo $librois>>librois
+librois2=$(cat librois)
+tput cup 19 13; echo "ISBN:"
+tput cup 19 25; echo "$librois2"
+
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+librotit=$(cat  libross | cut -d: -f3)
+echo $librotit>>librois
+librotit2=$(cat librois)
+tput cup 21 13; echo "Titulo:"
+tput cup 21 25; echo "$librotit2"
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+libroaut=$(cat  libross | cut -d: -f4)
+echo $libroaut>>librois
+libroaut2=$(cat librois)
+tput cup 23 13; echo "Autor:"
+tput cup 23 25; echo "$libroaut2"
+rm libross
+rm librois
+
+touch libross
+cp prestamosl.txt libross
+libroasig=$(cat  libross | cut -d: -f5)
+echo $libroasig>>librois
+libroasig2=$(cat librois)
+tput cup 25 13; echo "Asignatura:"
+tput cup 25 25; echo "$libroasig2"
+rm libross
+rm librois
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+2)
+clear
+tput cup 3 13;echo "Revistas:"
+if test -e revistas.txt
+then
+touch libross
+cp revistas.txt libross
+librois=$(cat  libross | cut -d: -f2)
+echo $librois>>librois
+librois2=$(cat librois)
+tput cup 5 13; echo "ISSN:"
+tput cup 5 25; echo "$librois2"
+
+rm libross
+rm librois
+
+touch libross
+cp revistas.txt libross
+librotit=$(cat  libross | cut -d: -f3)
+echo $librotit>>librois
+librotit2=$(cat librois)
+tput cup 7 13; echo "Titulo:"
+tput cup 7 25; echo "$librotit2"
+rm libross
+rm librois
+
+touch libross
+cp revistas.txt libross
+libroaut=$(cat  libross | cut -d: -f4)
+echo $libroaut>>librois
+libroaut2=$(cat librois)
+tput cup 9 13; echo "Autor:"
+tput cup 9 25; echo "$libroaut2"
+rm libross
+rm librois
+fi
+
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+3)
+clear
+tput cup 3 13;echo "Escritos:"
+if test -e escritos.txt
+then
+touch libross
+cp escritos.txt libross
+user=$(cat  libross | cut -d: -f2)
+echo $user>>librois
+user2=$(cat librois)
+tput cup 5 13; echo "Codigo:"
+tput cup 5 25; echo "$user2"
+rm libross
+rm librois
+
+touch libross
+cp escritos.txt libross
+ape=$(cat  libross | cut -d: -f3)
+echo $ape>>librois
+ape2=$(cat librois)
+tput cup 7 13; echo "Tema:"
+tput cup 7 25; echo "$ape2"
+rm libross
+rm librois
+
+touch libross
+cp escritos.txt libross
+dire=$(cat  libross | cut -d: -f4)
+echo $dire>>librois
+dire2=$(cat librois)
+tput cup 9 13; echo "Grupo:"
+tput cup 9 25; echo "$dire2"
+rm libross
+rm librois
+
+touch libross
+cp escritos.txt libross
+tel=$(cat  libross | cut -d: -f5)
+echo $tel>>librois
+tel2=$(cat librois)
+tput cup 11 13; echo "Asignatura:"
+tput cup 11 25; echo "$tel"
+rm libross
+rm librois
+
+touch libross
+cp escritos.txt libross
+ced=$(cat  libross | cut -d: -f6)
+echo $ced>>librois
+ced2=$(cat librois)
+tput cup 13 13; echo "Profesor:"
+tput cup 13 25; echo "$ced2"
+rm libross
+rm librois
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+4)
+clear
+tput cup 3 13;echo "Videos para prestamo:"
+if test -e videos.txt
+then
+touch videoss
+cp videos.txt videoss
+videocod=$(cat  videoss | cut -d: -f2)
+echo $videocod>>videocod
+videocod2=$(cat  videocod)
+tput cup 5 13; echo "Codigo:"
+tput cup 5 25; echo "$videocod2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp videos.txt videoss
+videotit=$(cat   videoss | cut -d: -f3)
+echo $videotit>>videocod
+videotit2=$(cat  videocod)
+tput cup 7 13; echo "Titulo:"
+tput cup 7 25; echo "$videotit2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp videos.txt videoss
+videoaut=$(cat   videoss | cut -d: -f4)
+echo $videoaut>>videocod
+videoaut2=$(cat  videocod)
+tput cup 9 13; echo "Autor:"
+tput cup 9 25; echo "$videoaut2"
+
+rm videoss
+rm videocod
+fi
+
+tput cup 17 13;echo "Videos  prestados:"
+if test -e prestamosv.txt
+then
+touch videoss
+cp prestamosv.txt videoss
+videocod=$(cat  videoss | cut -d: -f2)
+echo $videocod>>videocod
+videocod2=$(cat videocod)
+tput cup 19 13; echo "Codigo:"
+tput cup 19 25; echo "$videocod2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp prestamosv.txt videoss
+videotit=$(cat  videoss | cut -d: -f3)
+echo $videotit>>videocod
+videotit2=$(cat videocod)
+tput cup 21 13; echo "Titulo:"
+tput cup 21 25; echo "$videotit2"
+
+rm videoss
+rm videocod
+
+
+
+touch videoss
+cp prestamosv.txt videoss
+videoaut=$(cat  videoss | cut -d: -f4)
+echo $videoaut>>videocod
+videoaut2=$(cat videocod)
+tput cup 23 13; echo "Autor:"
+tput cup 23 25; echo "$videoaut2"
+
+rm videoss
+rm videocod
+fi
+
+
+
+tput cup 25 3; echo "Presione  [0] para regresar: " 
+tput cup 25 31; read r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+
+
+
+0) clear ;;
+
+*) echo "Opcion no valida, intentelo nuevamente";;
+
+esac
+
+esac
+done
+

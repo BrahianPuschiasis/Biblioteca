@@ -1,0 +1,142 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+clear
+tput setaf 5
+tput cup 5 35; echo "[1] Libros"
+tput cup 7 35; echo "[2] Videos"
+tput cup 9 35; echo "[3] Revistas"
+tput cup 11 35; echo "[4] Escritos"
+tput cup 13 35; echo "[5] Usuarios"
+tput cup 15 35; echo "[0] Volver"
+tput cup 17 35; read -p "Ingrese opcion deseada: " opcion
+case $opcion in
+0) clear ;;
+1) 
+clear
+tput cup 5 30; echo "Ingrese ISBN: "
+tput cup 7 30; echo "Ingrese Titulo: "
+tput cup 9 30; echo "Ingrese Autor: "
+tput cup 11 30; echo "Ingrese Asignatura: "
+tput cup 5 43; read ibsn
+tput cup 7 45; read titl
+tput cup 9 44; read autl
+tput cup 11 49; read asigl
+clear
+echo "Usted ingreso: 	ISBN: $ibsn		Titulo: $titl		Autor: $autl		Asignatura: $asigl"
+read -p "¿Desea ingresar esos datos, s/n?" sn
+if test -z $ibsn
+then
+echo :$RANDOM:$titl:$autl:$asigl>>biblioteca.txt
+echo :$RANDOM:$titl:$autl:$asigl>>libros.txt
+else
+ if [ $sn = s ]
+then
+echo :$ibsn:$titl:$autl:$asigl>>biblioteca.txt
+echo :$ibsn:$titl:$autl:$asigl>>libros.txt
+fi
+fi
+;;
+2) echo "Videos:"
+clear
+tput cup 5 30; echo "Ingrese Codigo: "
+tput cup 7 30; echo "Ingrese Titulo: "
+tput cup 9 30; echo "Ingrese Autor: "
+tput cup 5 45; read codv
+tput cup 7 45; read titv
+tput cup 9 44; read autv
+clear
+echo "Usted ingreso: 	Codigo: $codv		Titulo: $titv		Autor: $autv"
+read -p "¿Desea ingresar esos datos, s/n?" sn
+if test -z $codv
+then
+echo :$RANDOM:$titv:$autv>>biblioteca.txt
+echo :$RANDOM:$titv:$autv>>videos.txt
+else
+ if [ $sn = s ]
+then
+echo :$codv:$titv:$autv>>biblioteca.txt
+echo :$codv:$titv:$autv>>videos.txt
+fi
+fi
+;;
+3) echo "Revistas:"
+clear
+tput cup 5 30; echo "Ingrese Codigo: "
+tput cup 7 30; echo "Ingrese Titulo: "
+tput cup 9 30; echo "Ingrese Autor: "
+tput cup 5 45; read issn
+tput cup 7 45; read titr
+tput cup 9 44; read autr
+clear
+echo "Usted ingreso: 	ISSN: $issn		Titulo: $titr		Autor: $autr"
+read -p "¿Desea ingresar esos datos, s/n?" sn
+if test -z $issn
+then
+echo :$RANDOM:$titr:$autr>>biblioteca.txt
+echo :$RANDOM:$titr:$autr>>revistas.txt
+else
+ if [ $sn = s ]
+then
+echo :$issn:$titr:$autr>>biblioteca.txt
+echo :$issn:$titr:$autr>>revistas.txt
+fi
+fi;;
+
+4) echo "Escritos:"
+clear
+tput cup 5 30; echo "Ingrese Codigo: "
+tput cup 7 30; echo "Ingrese Tema: "
+tput cup 9 30; echo "Ingrese Grupo: "
+tput cup 11 30; echo "Ingrese Asignatura: "
+tput cup 13 30; echo "Ingrese Profesor: "
+tput cup 5 45; read code
+tput cup 7 43; read tite
+tput cup 9 44; read grupe
+tput cup 11 49; read asige
+tput cup 13 47; read proe
+echo "Usted ingreso: 	Codigo: $code		Tema: $tite		Grupo: $grupe	Asignatura:$asige	Profesor:$proe"
+read -p "¿Desea ingresar esos datos, s/n?" sn
+if test -z $code
+then
+echo :$RANDOM:$tite:$grupe:$asige:$proe>>biblioteca.txt
+echo :$RANDOM:$tite:$grupe:$asige:$proe>>escritos.txt
+else
+ if [ $sn = s ]
+then
+echo :$code:$tite:$grupe:$asige:$proe>>biblioteca.txt
+echo :$code:$tite:$grupe:$asige:$proe>>escritos.txt
+fi
+fi;;
+
+5) echo "Usuario:"
+clear
+tput cup 5 30; echo "Usuario: "
+tput cup 7 30; echo "Nombre: "
+tput cup 9 30; echo "Apellido: "
+tput cup 11 30; echo "Direccion: "
+tput cup 13 30; echo "Telefono: "
+tput cup 15 30; echo "Cedula: "
+tput cup 5 38; read usu
+tput cup 7 37; read nomu
+tput cup 9 39; read apu
+tput cup 11 41; read direu
+tput cup 13 40; read telu
+tput cup 15 38; read cedu
+clear
+echo "Usted ingreso: 	Usuario:$usu		Nombre:$nomu		Apellido:$apu		Direccion:$direu		
+		Telefono:$telu		Cedula:$cedu"
+read -p "¿Desea ingresar esos datos, s/n?" sn
+ if [ $sn = s ]
+then
+echo :$usu:$nomu:$apu:$direu:$telu:$cedu>>administracion.txt
+fi;;
+
+*)clear 
+echo " El numero $opcion no es una opcion correcta, intentelo de nuevo"
+sleep 3;;
+esac
+done

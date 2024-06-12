@@ -1,0 +1,142 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+clear
+tput setaf 4
+tput cup 5 35; echo "[1] Libros"
+tput cup 7 35; echo "[2] Videos"
+tput cup 9 35; echo "[3] Usuarios"
+tput cup 11 35; echo "[0] Volver"
+tput cup 13 35; read -p "Ingrese Opcion deseada:" opcion
+
+case $opcion in
+
+0) clear ;;
+
+1) echo "Libros:"
+
+clear
+tput cup 3 30; echo "Ingrese ISBN: "
+tput cup 5 30; echo "Ingrese Titulo: "
+tput cup 3 43; read isbn
+tput cup 5 45; read titl
+
+
+grep -w "$isbn" libros.txt>variables2
+log2=$(cat variables2 | cut -d: -f2,3)
+echo $isbn:$titl>>prueba.txt
+log=$(grep -w "$isbn" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+echo "Usted ingreso: 	ISBN: $isbn		Titulo: $titl"
+else 
+clear
+echo "El libro  no existe, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+read -p "¿Desea eliminar el libro $titl, s/n?" sn
+ if [ $sn = s ]
+then
+grep -v "$isbn:$titl" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$isbn:$titl" libros.txt>>biblioteca3.txt
+rm libros.txt
+mv biblioteca3.txt libros.txt
+fi
+;;
+2)
+
+clear
+
+tput cup 3 30; echo "Ingrese Codigo: "
+tput cup 5 30; echo "Ingrese Titulo: "
+tput cup 3 45; read codv
+tput cup 5 45; read titv
+clear
+
+grep -w "$codv" videos.txt>variables2
+log2=$(cat variables2 | cut -d: -f2,3)
+echo $codv:$titv>>prueba.txt
+log=$(grep -w "$codv" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+echo "Usted ingreso: 	Codigo: $codv		Titulo: $titv"
+else
+clear
+echo "El video  no existe, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+read -p "¿Desea eliminar el video $titv, s/n?" sn
+if [ $sn = s ]
+then
+grep -v "$codv:$titv" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$codv:$titv" videos.txt>>biblioteca3.txt
+rm videos.txt
+mv biblioteca3.txt videos.txt
+fi;;
+
+3)
+
+clear
+tput cup 3 30; echo "Ingrese Usuario: "
+tput cup 5 30; echo "Ingrese cedula: "
+tput cup 3 46; read usu
+tput cup 5 46; read cedu
+
+grep -w "$usu" administracion.txt>variables2
+log2=$(cat -n variables2 | cut -d: -f2,7)
+echo $usu:$cedu>>prueba.txt
+log=$(grep -w "$usu" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+echo "Usted ingreso: 	Usuario: $usu 		Cedula: $cedu"
+else
+clear
+echo "El usuario no existe, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+read -p "¿Desea eliminar al usuario $cedu, s/n?" sn
+ if [ $sn = s ]
+then
+grep -v "$cedu" administracion.txt>>administracion2.txt
+rm administracion.txt
+mv administracion2.txt administracion.txt 
+fi;;
+*)clear
+ echo " El numero $opcion no es una opcion correcta, intentelo de nuevo"
+sleep 3;;
+esac
+done

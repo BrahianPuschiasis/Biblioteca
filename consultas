@@ -1,0 +1,300 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+tput cup 5 35; echo "[1] Libros"
+
+tput cup 7 35; echo "[2] Videos"
+
+tput cup 9 35; echo "[3] Revistas"
+
+tput cup 11 35; echo "[4] Escritos"
+
+tput cup 13 35; echo "[5] Usuarios"
+
+tput cup 15 35; echo "[0] Volver"
+
+tput cup 17 35; read -p "Ingrese opcion deseada:" opcion
+
+case $opcion in
+
+0) clear ;;
+
+1)
+clear
+tput cup 3 30; echo "Ingrese ISBN,titulo, autor o asignatura: "
+tput cup 3 70; read ibsn
+touch variables
+grep  -w "$ibsn" libros.txt>variables
+ibbsn=$(cat  variables | cut -d: -f2)
+titulo=$(cat  variables | cut -d: -f3)
+autor=$(cat  variables | cut -d: -f4)
+asignatura=$(cat  variables | cut -d: -f5)
+
+grep -w "$ibsn" histmatl.txt>tree
+grep -w "$ibsn"  consultorio.txt>consulta2
+grep  -w "$ibsn" libros.txt>juan
+grep  -w "$ibsn" prestamosl.txt>juan2
+
+contando=$(cat -n juan | tail -1 | cut -d: -f1)
+contando2=$(cat -n juan2 | tail -1 | cut -d: -f1)
+user=$(cat consulta2 | cut -d: -f3)
+vence=$(cat consulta2 | cut -d: -f9,10,11)
+dir=$(cat consulta2 | cut -d: -f6)
+
+if test -z $ibbsn
+then
+clear
+echo "No se encuentra en biblioteca"
+else
+echo "Material en biblioteca:"
+echo "IBSN: $ibbsn"
+echo "Titulo: $titulo"
+echo "Autor: $autor"
+echo "Asignatura: $asignatura"
+echo "Los libros que quedan en biblioteca son:$contando"   
+fi
+
+
+
+if test -z $contando2
+then
+echo "No se encuentra en prestamo"
+else
+echo "Los libros prestados son:$contando2"
+suma=`expr $contando + $contando2`
+echo "El total de este libro es: $suma"
+echo "El usuario que lo tiene es $user, vive en $dir y tiene que ser devuelto el $vence"
+echo "Historial de prestamo de este material:"
+fi
+
+
+
+
+
+
+
+
+if test -s histmatl.txt
+then
+cat -n tree
+fi
+
+if test -s tree
+then
+rm tree
+fi
+
+if test -s juan2
+then
+rm juan2
+fi
+
+if test -s consulta2
+then
+rm consulta2
+fi
+
+rm variables
+rm juan
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+2)
+clear
+tput cup 3 30; echo "Ingrese Codigo, titulo o autor: "
+tput cup 3 61; read codv
+touch variables
+grep  -w "$codv" videos.txt>variables
+codigo=$(cat  variables | cut -d: -f2)
+titulo=$(cat  variables | cut -d: -f3)
+autor=$(cat  variables | cut -d: -f4)
+
+grep -w "$codv" videos.txt>juan
+grep -w "$codv" prestamosv.txt>juan2
+grep -w "$codv" consultorio2.txt>consulta2
+grep -w "$codv" histmatv.txt>tree
+
+user=$(cat consulta2 | cut -d: -f3)
+vence=$(cat consulta2 | cut -d: -f9,10,11)
+dir=$(cat consulta2 | cut -d: -f6)
+contando2=$(cat -n juan2 | tail -1 | cut -d: -f1)
+contando=$(cat -n juan | tail -1 | cut -d: -f1)
+
+if test -z $codigo
+then
+echo "No se encuentra en biblioteca"
+else
+echo "Codigo: $codigo"
+echo "Titulo: $titulo"
+echo "Autor: $autor"
+echo "Los videos que quedan en biblioteca son:$contando"   
+fi
+
+
+if test -z $contando2
+then
+echo "No se encuentra en prestamo"
+else
+echo "Los videos prestados son:$contando2"
+suma=`expr $contando + $contando2`
+echo "El total de este video es :$suma"
+echo "El usuario que lo tiene es $user, vive en $dir y tiene que ser devuelto el $vence"
+echo "Historial de prestamo de este material:"
+cat -n tree
+fi
+
+
+
+
+rm tree
+rm variables
+rm juan
+rm juan2
+rm consulta2
+
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+3)
+
+clear
+tput cup 3 30; echo "Ingrese ISSN,titulo o autor: "
+tput cup 3 59; read issn
+touch variables
+grep  -w "$issn" revistas.txt>variables
+fijandome=$(cat variables)
+if test -z $fijandome
+then
+clear
+rm variables
+echo "La revista que ingreso no se encuentra en biblioteca, volviendo al menu"
+sleep 3
+exit
+else
+clear
+isssn=$(cat  variables | cut -d: -f2)
+titulo=$(cat  variables | cut -d: -f3)
+autor=$(cat  variables | cut -d: -f4)
+echo "ISSN: $isssn"
+echo "Titulo: $titulo"
+echo "Autor: $autor"
+
+
+
+grep -w "$issn" revistas.txt>juan
+contando=$(cat -n juan | tail -1 | cut -d: -f1)
+echo "Las revistas  que hay en biblioteca son:$contando"
+
+rm juan
+rm variables
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+4)
+
+clear
+tput cup 3 30; echo "Ingrese codigo, tema, grupo, asignatura o profesor: "
+tput cup 3 81; read code
+touch variables
+grep  -w "$code" escritos.txt>variables 
+fijandome=$(cat variables)
+if test -z $fijandome
+then
+clear
+rm variables
+echo "El escrito que ingreso no se encuentra en biblioteca, volviendo al menu"
+sleep 3
+exit
+else
+clear
+codigo=$(cat  variables | cut -d: -f2)
+tema=$(cat  variables | cut -d: -f3)
+grupo=$(cat  variables | cut -d: -f4)
+asignatura=$(cat  variables | cut -d: -f5)
+profesor=$(cat  variables | cut -d: -f6)
+echo "Codigo: $codigo"
+echo "Tema: $tema"
+echo "Grupo: $grupo"
+echo "Asignatura: $asignatura"
+echo "Profesor: $profesor"
+
+grep -w "$code" escritos.txt>juan
+contando=$(cat -n juan | tail -1 | cut -d: -f1)
+echo "Los escritos que hay en biblioteca son:$contando"
+
+
+rm juan
+rm variables
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+5)
+clear
+tput cup 5 30; echo "Cedula: "
+tput cup 5 37; read cedu
+touch variables
+grep -w "$cedu" administracion.txt>variables
+fijandome=$(cat variables)
+if test -z $fijandome
+then
+clear
+rm variables
+echo "El usuario que ingreso no existe, volviendo al menu"
+sleep 3
+exit
+else
+clear
+usuario=$(cat  variables | cut -d: -f2)
+nombre=$(cat  variables | cut -d: -f3)
+apellido=$(cat  variables | cut -d: -f4)
+direccion=$(cat  variables | cut -d: -f5)
+telefono=$(cat  variables | cut -d: -f6)
+cedula=$(cat  variables | cut -d: -f7)
+echo "Usuario: $usuario"
+echo "Nombre: $nombre"
+echo "Apellido: $apellido"
+echo "Direccion: $direccion"
+echo "Telefono: $telefono"
+echo "Cedula: $cedula"
+rm variables
+
+hist=$(cat histusul.txt | grep -w "$usuario" | cut -d: -f1,2,3,4,5,6)
+hist2=$(cat histusuv.txt | grep -w "$usuario" | cut -d: -f1,2,3,4,5,6)
+
+echo "Historial de prestamo a este usuario de libros es : $hist"
+echo "Historial de prestamo a este usuario de videos es : $hist2"
+
+fi
+read -p "Presione  [0] para regresar: " r
+if [ $r = 0 ]
+then
+clear
+fi
+;;
+
+
+*) echo "Opcion incorrecta, intentelo de nuevo";;
+
+esac
+done

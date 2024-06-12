@@ -1,0 +1,154 @@
+#!/bin/bash
+clear
+	opcion=1
+
+	while [ $opcion -ne 0 ] ;
+		do
+diaor=$(cat fecha | cut -d: -f1)
+mesor=$(cat fecha | cut -d: -f2)
+anioor=$(cat fecha | cut -d: -f3)
+diav=$(cat fechaspres.txt | head -1 | cut -d: -f7)
+mesv=$(cat fechaspres.txt | head -1 |cut -d: -f8)
+aniov=$(cat fechaspres.txt | head -1 |cut -d: -f9)
+
+
+dia=`expr $diav - $diaor`
+
+
+mes=`expr $mesv - $mesor`
+
+anio=`expr $aniov - $anioor`
+
+cero=0
+if  [ $anio  -eq $cero ]
+then
+clear
+if [ $mes -eq $cero ]
+then 
+clear
+if [ $dia -le $cero ]
+then
+clear
+echo "Hay libros vencidos"
+sleep 2
+editar=$(grep "$diav" fechaspres.txt)
+echo $editar>>vencidos.txt
+grep -v "$diav" fechaspres.txt>>eliminando.txt
+rm fechaspres.txt
+mv eliminando.txt fechaspres.txt 
+fi
+fi
+fi
+
+if  [ $anio  -lt $cero ]
+then
+clear
+echo "Hay libros vencidos"
+sleep 2
+editar2=$(grep "$diav" fechaspres.txt)
+echo $editar2>>vencidos.txt
+grep -v "$diav" fechaspres.txt>>eliminando.txt
+rm fechaspres.txt
+mv eliminando.txt fechaspres.txt 
+fi
+if  [ $mes  -lt $cero ]
+then
+clear
+editar3=$(grep "$diav" fechaspres.txt)
+echo $editar3>>vencidos.txt
+grep -v "$diav" fechaspres.txt>>eliminando.txt
+rm fechaspres.txt
+mv eliminando.txt fechaspres.txt 
+echo "Hay libros vencidos"
+sleep 2
+fi
+
+
+			clear
+		        touch fecha
+			date +"%d:%m:%y">fecha
+			tput setaf 6
+			tput cup 1 33; echo "*"
+			tput cup 1 35; echo "*"
+			tput cup 1 37; echo "*"
+			tput cup 1 39; echo "*"
+			tput cup 1 41; echo "*"
+			tput cup 1 43; echo "*"
+			tput cup 1 45; echo "*"
+			tput cup 1 47; echo "*"
+			tput cup 1 49; echo "*"
+			tput cup 1 51; echo "*"
+			tput cup 1 53; echo "*"
+			tput cup 1 55; echo "*"
+			tput cup 1 57; echo "*"
+			tput cup 1 59; echo "*"
+			tput cup 5 33; echo "*"
+			tput cup 7 33; echo "*"
+			tput cup 9 33; echo "*"
+			tput cup 3 33; echo "*"
+			tput cup 11 33; echo "*"
+			tput cup 13 33; echo "*"
+			tput cup 15 33; echo "*"
+			tput cup 17 33; echo "*"
+			tput cup 19 33; echo "*"
+			tput cup 21 33; echo "*"
+			tput cup 21 33; echo "*"
+			tput cup 21 35; echo "*"
+			tput cup 21 37; echo "*"
+			tput cup 21 39; echo "*"
+			tput cup 21 41; echo "*"
+			tput cup 21 43; echo "*"
+			tput cup 21 45; echo "*"
+			tput cup 21 47; echo "*"
+			tput cup 21 49; echo "*"
+			tput cup 21 51; echo "*"
+			tput cup 21 53; echo "*"
+			tput cup 21 55; echo "*"
+			tput cup 21 57; echo "*"
+			tput cup 21 59; echo "*"
+			tput cup 3 59; echo "*"
+			tput cup 5 59; echo "*"
+			tput cup 7 59; echo "*"
+			tput cup 9 59; echo "*"
+			tput cup 11 59; echo "*"
+			tput cup 13 59; echo "*"
+			tput cup 15 59; echo "*"
+			tput cup 17 59; echo "*"
+			tput cup 19 59; echo "*"
+tput cup 3 35; echo "[1] Altas"
+tput cup 5 35; echo "[2] Bajas"
+tput cup 7 35; echo "[3] Modificaciones"
+tput cup 9 35; echo "[4] Consultas"
+tput cup 11 35; echo "[5] Listados"
+tput cup 13 35; echo "[6] Prestamos"
+tput cup 15 35; echo "[7] Devoluciones"
+tput cup 17 35; echo "[0] Salir"
+
+
+
+tput cup 19 35; read -p "Ingrese Opcion deseada:" opcion
+
+		case $opcion in
+
+		        1) sh altas;;
+	
+		        2) sh bajas;;
+
+        		3) sh modificaciones;;
+
+		        4) sh consultas;;
+
+        		5) sh listados;;
+
+        		6) sh prestamos;;
+
+		        7) sh devoluciones;;
+
+        		0) clear;;
+
+				*)clear 
+					tput cup 21 25; echo "El numero $opcion no es valido, por favor intente nuevamente"
+					sleep 3;;
+
+							esac
+							done

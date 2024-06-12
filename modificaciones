@@ -1,0 +1,293 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+clear
+tput setaf 5
+tput cup 5 35; echo "[1] Libros"
+tput cup 7 35; echo "[2] Videos"
+tput cup 9 35; echo "[3] Revistas"
+tput cup 11 35; echo "[4] Escritos"
+tput cup 13 35; echo "[5] Usuarios"
+tput cup 15 35; echo "[0] Volver"
+tput cup 17 35; read -p "Ingrese opcion deseada: " opcion
+case $opcion in
+0) clear ;;
+
+
+1)clear
+tput cup 3 30; echo "Ingrese ISBN: "
+tput cup 5 30; echo "Ingrese Titulo: "
+tput cup 3 43; read isbn
+tput cup 5 45; read titl
+clear
+grep -w "$isbn" libros.txt>variables2
+log2=$(cat variables2 | cut -d: -f2,3)
+echo $isbn:$titl>>prueba.txt
+log=$(grep -w "$isbn" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+echo "Usted ingreso: 	ISBN: $isbn		Titulo: $titl"
+
+tput cup 5 30; echo "Nuevo ISBN: "
+tput cup 7 30; echo "Nuevo Titulo: "
+tput cup 9 30; echo "Nuevo Autor: "
+tput cup 11 30; echo "Nueva Asignatura: "
+tput cup 5 43; read ibsn
+tput cup 7 45; read titl2
+tput cup 9 44; read autl2
+tput cup 11 49; read asigl2
+clear
+else 
+clear
+echo "El libro  no existe o no se encuentra en biblioteca, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+echo "Procesando modificacion, datos nuevos:ISBN: $ibsn    Titulo: $titl2	Autor: $autl2       Asignatura: $asigl2"
+read -p "¿Desea aplicar estas modificaciones en $titl2, s/n?" snn
+ if [ $snn = s ]
+then
+grep -v "$isbn:$titl" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$isbn:$titl" libros.txt>>biblioteca3.txt
+rm libros.txt
+mv biblioteca3.txt libros.txt
+echo :$ibsn:$titl2:$autl2:$asigl2>>biblioteca.txt
+echo :$ibsn:$titl2:$autl2:$asigl2>>libros.txt
+else
+echo "Volviendo al menu"
+sleep 2
+fi ;;
+
+2)
+clear
+tput cup 3 30; echo "Ingrese Codigo: "
+tput cup 5 30; echo "Ingrese Titulo: "
+tput cup 3 45; read codv
+tput cup 5 45; read titv
+clear
+grep -w "$codv" videos.txt>variables2
+log2=$(cat variables2 | cut -d: -f2,3)
+echo $codv:$titv>>prueba.txt
+log=$(grep -w "$codv" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+
+echo "Usted ingreso: 	Codigo: $codv		Titulo: $titv"
+
+tput cup 5 30; echo "Nuevo Codigo: "
+tput cup 7 30; echo "Nuevo Titulo: "
+tput cup 9 30; echo "Nuevo Autor: "
+tput cup 5 45; read codv2
+tput cup 7 45; read titv2
+tput cup 9 44; read autv2
+clear
+else 
+clear
+echo "El video  no existe o no se encuentra en biblioteca, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+echo "Procesando modificacion, datos nuevos:Codigo: $codv2    Titulo: $titv2	Autor: $autv2"
+read -p "¿Desea aplicar estas modificaciones en $titv2, s/n?" snn
+ if [ $snn = s ]
+then
+grep -v "$codv:$titv" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$codv:$titv" videos.txt>>biblioteca3.txt
+rm videos.txt
+mv biblioteca3.txt videos.txt
+echo :$codv2:$titv2:$autv2>>biblioteca.txt
+echo :$codv2:$titv2:$autv2>>videos.txt
+else
+echo "Volviendo al menu"
+sleep 2
+fi ;;
+
+3)
+clear
+tput cup 5 30; echo "Ingrese ISSN: "
+tput cup 7 30; echo "Ingrese Titulo: "
+tput cup 5 45; read codv
+tput cup 7 45; read titv
+clear
+grep -w "$codv" revistas.txt>variables2
+log2=$(cat variables2 | cut -d: -f2,3)
+echo $codv:$titv>>prueba.txt
+log=$(grep -w "$codv" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+echo "Usted ingreso: 	ISSN: $codv		Titulo: $titv"
+
+tput cup 5 30; echo "Nuevo ISSN: "
+tput cup 7 30; echo "Nuevo Titulo: "
+tput cup 9 30; echo "Nuevo Autor: "
+tput cup 5 43; read issn2
+tput cup 7 45; read titr2
+tput cup 9 44; read autr2
+clear
+clear
+else 
+clear
+echo "La revista  no existe o no se encuentra en biblioteca, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+echo "Procesando modificacion, datos nuevos:ISSN: $issn2    Titulo: $titr2	Autor: $autr2"
+read -p "¿Desea aplicar estas modificaciones en $titr2, s/n?" snn
+ if [ $snn = s ]
+then
+grep -v "$codv:$titv" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$codv:$titv" revistas.txt>>biblioteca3.txt
+rm revistas.txt
+mv biblioteca3.txt revistas.txt
+echo :$issn2:$titr2:$autr2>>biblioteca.txt
+echo :$issn2:$titr2:$autr2>>revistas.txt
+else
+echo "Volviendo al menu"
+sleep 2
+fi;;
+
+4)
+clear
+tput cup 5 30; echo "Ingrese Codigo: "
+tput cup 5 45; read code
+clear
+grep -w "$code" escritos.txt>variables2
+log2=$(cat variables2 | cut -d: -f2)
+echo $code>>prueba.txt
+log=$(grep -w "$code" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+
+echo "Usted ingreso: 	Codigo: $code"
+tput cup 5 30; echo "Nuevo Codigo: "
+tput cup 7 30; echo "Nuevo Tema: "
+tput cup 9 30; echo "Nuevo Grupo: "
+tput cup 11 30; echo "Nuevo Asignatura: "
+tput cup 13 30; echo "Nuevo Profesor: "
+tput cup 5 45; read code2
+tput cup 7 43; read tite2
+tput cup 9 44; read grupe2
+tput cup 11 49; read asige2
+tput cup 13 47; read proe2
+clear
+else 
+clear
+echo "El escrito no existe o no se encuentra en biblioteca, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+echo "Procesando modificacion, datos nuevos:Codigo: $code2   Tema: $tite2 Grupo: $grupe2 Asignatura: $asige2	Profesor: $proe2"
+read -p "¿Desea aplicar estas modificaciones en $tite2, s/n?" snn
+ if [ $snn = s ]
+then
+grep -v "$codv:$titv" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$codv:$titv" escritos.txt>>biblioteca3.txt
+rm escritos.txt
+mv biblioteca3.txt escritos.txt
+echo :$code2:$tite2:$grupe2:$asige2:$proe2>>biblioteca.txt
+echo :$code2:$tite2:$grupe2:$asige2:$proe2>>escritos.txt
+else
+echo "Volviendo al menu"
+sleep 2
+fi
+;;
+
+5)
+clear
+tput cup 3 30; echo "Ingrese Usuario: "
+tput cup 3 46; read usu
+tput cup 5 30; echo "Ingrese cedula: "
+tput cup 5 46; read cedu
+
+grep -w "$usu" administracion.txt>variables2
+log2=$(cat -n variables2 | cut -d: -f2,7)
+echo $usu:$cedu>>prueba.txt
+log=$(grep -w "$usu" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+clear
+echo "Usted ingreso: 	Usuario: $usu Cedula: $cedu"
+
+tput cup 5 30; echo "Nuevo Usuario: "
+tput cup 7 30; echo "Nuevo Nombre: "
+tput cup 9 30; echo "Nuevo Apellido: "
+tput cup 11 30; echo "Nueva Direccion: "
+tput cup 13 30; echo "Nuevo Telefono: "
+tput cup 15 30; echo "Nueva Cedula: "
+tput cup 5 44; read usu2
+tput cup 7 43; read nomu2
+tput cup 9 45; read apu2
+tput cup 11 46; read direu2
+tput cup 13 45; read telu2
+tput cup 15 43; read cedu2
+else
+clear
+echo "El usuario  no existe o no cohensiden los campos, volviendo al menu prinsipal"
+rm variables2
+rm prueba.txt
+sleep 4
+exit
+fi
+clear
+echo "Procesando modificacion, datos nuevos:Usuario: $usu2   Nombre: $nomu2 Apellido: $apu2 Direccion: $direu2 Telefono: $telu2 Cedula: $cedu2"
+read -p "¿Desea aplicar estas modificaciones en $cedu, s/n?" snn
+if [ $snn = s ]
+then
+grep -v "$cedu" administracion.txt>>administracion2.txt
+rm administracion.txt
+mv administracion2.txt administracion.txt 
+echo :$usu2:$nomu2:$apu2:$direu2:$telu2:$cedu2>>administracion.txt
+fi ;;
+*) echo "El numero $opcion no esta dentro de las posibilidades"
+sleep 3 ;;
+esac
+done

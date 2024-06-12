@@ -1,0 +1,118 @@
+#!/bin/bash
+clear
+opcion=1
+
+while [ $opcion -ne 0 ] ;
+do
+clear
+
+tput cup 3 3; echo "[1] Prestamo de Libros"
+
+tput cup 5 3; echo "[2] Prestamo de Videos"
+
+tput cup 7 3; echo "[0] Volver"
+
+tput cup 9 3; read -p "Ingrese opcion deseada:" opcion
+
+case $opcion in
+
+1)
+
+clear
+tput cup 3 30; echo "Ingrese Usuario: "
+tput cup 3 46; read usu
+tput cup 5 30; echo "Ingrese cedula: "
+tput cup 5 46; read cedu
+
+grep -w "$usu" administracion.txt>variables2
+log2=$(cat -n variables2 | cut -d: -f2,7)
+echo $usu:$cedu>>prueba.txt
+log=$(grep -w "$usu" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm variables2
+rm prueba.txt
+tput cup 3 3;read -p "ISBN: " ibsn
+grep -w "$ibsn" libros.txt>>prestamosl.txt
+prestar=$(grep -w "$ibsn" libros.txt)
+fechamas2=$(date +"%d:%m:%y")
+fechamas=$(date +"%d:%m:%y" --date='3 day')
+usuario=$(grep -w "$usu" administracion.txt)
+echo :$prestar:$fechamas2>>histmatl.txt
+echo :$prestar:$fechamas2:$usuario>>histusul.txt
+echo :$usuario:$fechamas:$prestar>>consultorio.txt
+echo :$prestar:$fechamas>>fechaspres.txt
+
+grep -v "$ibsn" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+
+grep -v "$ibsn" libros.txt>>biblioteca3.txt
+rm libros.txt
+mv biblioteca3.txt libros.txt
+
+else
+clear
+echo "Nombre de usuario o cedula incorrectos"
+sleep 3
+rm prueba.txt
+rm variables2
+fi
+ ;;
+
+2)
+
+clear
+tput cup 3 30; echo "Ingrese Usuario: "
+tput cup 3 46; read usu
+tput cup 5 30; echo "Ingrese cedula: "
+tput cup 5 46; read cedu
+
+grep -w "$usu" administracion.txt>variables2
+log2=$(cat -n variables2 | cut -d: -f2,7)
+echo $usu:$cedu>>prueba.txt
+log=$(grep -w "$usu" prueba.txt)
+log3=$(echo $log2)
+log4=$(echo $log)
+
+if    [ $log3 = $log4 ]
+then
+clear
+rm prueba.txt
+rm variables2
+tput cup 3 3;read -p "Codigo: " codv
+grep -w "$codv" videos.txt>>prestamosv.txt
+fechamas2=$(date +"%d:%m:%y")
+usuario=$(grep -w "$usu" administracion.txt)
+prestar=$(grep -w "$codv" videos.txt)
+fechamas=$(date +"%d:%m:%y" --date='3 day')
+echo :$prestar:$fechamas2>>histmatv.txt
+echo :$prestar:$fechamas2:$usuario>>histusuv.txt
+echo :$usuario:$fechamas:$prestar>>consultorio2.txt
+echo :$prestar:$fechamas>>fechaspres.txt
+
+grep -v "$codv" biblioteca.txt>>biblioteca3.txt
+rm biblioteca.txt
+mv biblioteca3.txt biblioteca.txt
+grep -v "$codv" videos.txt>>biblioteca3.txt
+rm videos.txt
+mv biblioteca3.txt videos.txt
+
+else
+clear
+echo "Nombre de usuario o cedula incorrectos"
+sleep 3
+rm prueba.txt
+rm variables2
+fi;;
+
+0) clear ;;
+
+*) echo "Opción ingresada no valida, intentelo de nuevo";;
+
+esac
+done
