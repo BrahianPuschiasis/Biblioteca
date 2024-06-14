@@ -22,274 +22,202 @@ tput cup 15 3; read -p "Ingrese Opcion deseada: " opcion
 case $opcion in
 0) clear ;;
 
-1)
-clear
-tput cup 3 13;echo "Libros para prestamo:"
-if test -e libros.txt
-then
-touch libross
-cp libros.txt libross
-librois=$(cat  libross | cut -d: -f2)
-echo $librois>>librois
-librois2=$(cat  librois)
-tput cup 5 13; echo "ISBN:"
-tput cup 5 25; echo "$librois2"
+1)clear
 
-rm libross
-rm librois
+print_libros() {
+    tput cup 3 13; echo "Libros para préstamo:"
 
-touch libross
-cp libros.txt libross
-librotit=$(cat  libross | cut -d: -f3)
-echo $librotit>>librois
-librotit2=$(cat  librois)
-tput cup 7 13; echo "Titulo:"
-tput cup 7 25; echo "$librotit2"
-rm libross
-rm librois
-
-touch libross
-cp libros.txt libross
-libroaut=$(cat  libross | cut -d: -f4)
-echo $libroaut>>librois
-libroaut2=$(cat  librois)
-tput cup 9 13; echo "Autor:"
-tput cup 9 25; echo "$libroaut2"
-rm libross
-rm librois
-
-touch libross
-cp libros.txt libross
-libroasig=$(cat  libross | cut -d: -f5)
-echo $libroasig>>librois
-libroasig2=$(cat  librois)
-tput cup 11 13; echo "Asignatura:"
-tput cup 11 25; echo "$libroasig2"
-rm libross
-rm librois
-fi
+    if test -e libros.txt; then
+        tput cup 5 13; echo "ISBN           Título               Autor               Asignatura"
+        tput cup 6 13; echo "---------------------------------------------------------------"
+        
+        awk -F: '
+        {
+            printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5
+        }
+        ' libros.txt | {
+            i=7  
+            while IFS= read -r line; do
+                tput cup $i 13; echo "$line"
+                ((i++))
+            done
+        }
+    else
+        tput cup 5 13; echo "No hay libros disponibles"
+    fi
+}
 
 
+print_videos() {
+    new_line=$((7 + NR + 2 + 2))
+
+    tput cup $new_line 13; echo "Videos para préstamo:"
+
+    if test -e videos.txt; then
+        tput cup $((new_line + 2)) 13; echo "Código         Título               Autor"
+        tput cup $((new_line + 3)) 13; echo "------------------------------------------"
+        
+        awk -F: '
+        {
+            printf "%-13s %-20s %-20s\n", $2, $3, $4
+        }
+        ' videos.txt | {
+            j=$((new_line + 4))  
+            while IFS= read -r line; do
+                tput cup $j 13; echo "$line"
+                ((j++))
+            done
+        }
+    else
+        tput cup $new_line 13; echo "No hay videos disponibles"
+    fi
+}
+
+main() {
+    print_libros
+    print_videos
+
+    end_line=$((new_line + 4 + NR + 2))
+    tput cup $end_line 13
+    read -p "Presione [0] para regresar: " r
+    if [ "$r" = "0" ]; then
+        clear
+    fi
+}
+
+main
 
 
-tput cup 17 13;echo "Videos para prestamo:"
-if test -e videos.txt
-then
-touch videoss
-cp videos.txt videoss
-videocod=$(cat  videoss | cut -d: -f2)
-echo $videocod>>videocod
-videocod2=$(cat  videocod)
-tput cup 19 13; echo "Codigo:"
-tput cup 19 25; echo "$videocod2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp videos.txt videoss
-videotit=$(cat   videoss | cut -d: -f3)
-echo $videotit>>videocod
-videotit2=$(cat  videocod)
-tput cup 21 13; echo "Titulo:"
-tput cup 21 25; echo "$videotit2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp videos.txt videoss
-videoaut=$(cat   videoss | cut -d: -f4)
-echo $videoaut>>videocod
-videoaut2=$(cat  videocod)
-tput cup 23 13; echo "Autor:"
-tput cup 23 25; echo "$videoaut2"
-
-rm videoss
-rm videocod
-fi
-
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
-fi
 ;;
+
+
+
+
 
 2)
 clear
-tput cup 3 13;echo "Libros prestados:"
-if test -e prestamosl.txt
-then
-touch libross
-cp prestamosl.txt libross
-librois=$(cat  libross | cut -d: -f2)
-echo $librois>>librois
-librois2=$(cat librois)
-tput cup 5 13; echo "ISBN:"
-tput cup 5 25; echo "$librois2"
 
-rm libross
-rm librois
+# Función para imprimir los datos de libros prestados
+print_libros_prestados() {
+    tput cup 3 13; echo "Libros prestados:"
 
-touch libross
-cp prestamosl.txt libross
-librotit=$(cat  libross | cut -d: -f3)
-echo $librotit>>librois
-librotit2=$(cat librois)
-tput cup 7 13; echo "Titulo:"
-tput cup 7 25; echo "$librotit2"
-rm libross
-rm librois
+    if test -e prestamosl.txt; then
+        # Imprimir encabezado y separador
+        tput cup 5 13; echo "ISBN           Título               Autor               Asignatura"
+        tput cup 6 13; echo "---------------------------------------------------------------"
+        
+        # Leer y procesar cada línea de prestamosl.txt
+        awk -F: '
+        {
+            printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5
+        }
+        ' prestamosl.txt | {
+            i=7  # Inicializar la línea de impresión
+            while IFS= read -r line; do
+                tput cup $i 13; echo "$line"
+                ((i++))
+            done
+        }
+    else
+        tput cup 5 13; echo "No hay libros prestados"
+    fi
+}
 
-touch libross
-cp prestamosl.txt libross
-libroaut=$(cat  libross | cut -d: -f4)
-echo $libroaut>>librois
-libroaut2=$(cat librois)
-tput cup 9 13; echo "Autor:"
-tput cup 9 25; echo "$libroaut2"
-rm libross
-rm librois
+# Función para imprimir los datos de videos prestados
+print_videos_prestados() {
+    # Calcular nueva línea para empezar con los videos
+    if test -e prestamosl.txt; then
+        line_count=$(wc -l < prestamosl.txt)
+    else
+        line_count=0
+    fi
+    new_line=$((7 + line_count + 2))
 
-touch libross
-cp prestamosl.txt libross
-libroasig=$(cat  libross | cut -d: -f5)
-echo $libroasig>>librois
-libroasig2=$(cat librois)
-tput cup 11 13; echo "Asignatura:"
-tput cup 11 25; echo "$libroasig2"
-rm libross
-rm librois
+    tput cup $new_line 13; echo "Videos prestados:"
+
+    if test -e prestamosv.txt; then
+        # Imprimir encabezado y separador para videos
+        tput cup $((new_line + 2)) 13; echo "Código         Título               Autor"
+        tput cup $((new_line + 3)) 13; echo "------------------------------------------"
+        
+        # Leer y procesar cada línea de prestamosv.txt
+        awk -F: '
+        {
+            printf "%-13s %-20s %-20s\n", $2, $3, $4
+        }
+        ' prestamosv.txt | {
+            j=$((new_line + 4))  # Inicializar la línea de impresión para videos
+            while IFS= read -r line; do
+                tput cup $j 13; echo "$line"
+                ((j++))
+            done
+        }
+    else
+        tput cup $((new_line + 2)) 13; echo "No hay videos prestados"
+    fi
+}
+
+# Función principal para mostrar libros y videos prestados
+main() {
+    print_libros_prestados
+    print_videos_prestados
+
+    # Calcular el número de líneas de videos.txt si existe
+    if test -e prestamosv.txt; then
+        video_line_count=$(wc -l < prestamosv.txt)
+    else
+        video_line_count=0
+    fi
+
+    # Ajustar la posición para el prompt de regreso
+    end_line=$((new_line + video_line_count + 4))
+    tput cup $end_line 13
+    read -p "Presione [0] para regresar: " r
+    if [ "$r" = "0" ]; then
+        clear
+    fi
+}
+
+# Llamar a la función principal
+main
+
+;;
+
+
+
+
+
+3)clear
+tput cup 3 13; echo "Usuarios registrados:"
+
+if test -e administracion.txt; then
+    tput cup 5 13; echo "Usuario"
+    tput cup 5 25; echo "Nombre"
+    tput cup 5 37; echo "Apellido"
+    tput cup 5 50; echo "Direccion"
+    tput cup 5 63; echo "Telefono"
+    tput cup 5 74; echo "Cedula"
+
+    tput cup 6 13; echo "-----------------------------------------------------------------------------"
+
+    line_counter=0
+
+    while IFS=':' read -r _ usuario nombre apellido direccion telefono cedula _; do
+        if [ -n "$usuario" ]; then
+            (( line_counter++ ))
+
+            tput cup $(( 6 + line_counter )) 13; printf "%-12s %-12s %-12s %-12s %-12s %-12s\n" "$usuario" "$nombre" "$apellido" "$direccion" "$telefono" "$cedula"
+        fi
+    done < administracion.txt
+
+    end_line=$(( 6 + line_counter + 2 )) 
+    tput cup $end_line 13
+    read -p "Presione [0] para regresar: " r
+    if [ "$r" = "0" ]; then
+        clear
+    fi
 fi
-
-
-tput cup 17 13;echo "Videos  prestados:"
-if test -e prestamosv.txt
-then
-touch videoss
-cp prestamosv.txt videoss
-videocod=$(cat  videoss | cut -d: -f2)
-echo $videocod>>videocod
-videocod2=$(cat videocod)
-tput cup 19 13; echo "Codigo:"
-tput cup 19 25; echo "$videocod2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp prestamosv.txt videoss
-videotit=$(cat  videoss | cut -d: -f3)
-echo $videotit>>videocod
-videotit2=$(cat videocod)
-tput cup 21 13; echo "Titulo:"
-tput cup 21 25; echo "$videotit2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp prestamosv.txt videoss
-videoaut=$(cat  videoss | cut -d: -f4)
-echo $videoaut>>videocod
-videoaut2=$(cat videocod)
-tput cup 23 13; echo "Autor:"
-tput cup 23 25; echo "$videoaut2"
-
-rm videoss
-rm videocod
-fi
-
-
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
-fi;;
-
-3) clear
-
-tput cup 3 13;echo "Usuarios registrados:"
-if test -e administracion.txt
-then
-touch libross
-cp administracion.txt libross
-user=$(cat  libross | cut -d: -f2)
-echo $user>>librois
-user2=$(cat librois)
-tput cup 5 13; echo "Usuario:"
-tput cup 5 25; echo "$user2"
-
-rm libross
-rm librois
-
-touch libross
-cp administracion.txt libross
-user=$(cat  libross | cut -d: -f3)
-echo $user>>librois
-user2=$(cat librois)
-tput cup 7 13; echo "Nombre:"
-tput cup 7 25; echo "$user2"
-rm libross
-rm librois
-
-touch libross
-cp administracion.txt libross
-ape=$(cat  libross | cut -d: -f4)
-echo $ape>>librois
-ape2=$(cat librois)
-tput cup 9 13; echo "Apellido:"
-tput cup 9 25; echo "$ape2"
-rm libross
-rm librois
-
-touch libross
-cp administracion.txt libross
-dire=$(cat  libross | cut -d: -f5)
-echo $dire>>librois
-dire2=$(cat librois)
-tput cup 11 13; echo "Direccion:"
-tput cup 11 25; echo "$dire2"
-rm libross
-rm librois
-
-touch libross
-cp administracion.txt libross
-tel=$(cat  libross | cut -d: -f6)
-echo $tel>>librois
-tel2=$(cat librois)
-tput cup 13 13; echo "Telefono:"
-tput cup 13 25; echo "$tel"
-rm libross
-rm librois
-
-touch libross
-cp administracion.txt libross
-ced=$(cat  libross | cut -d: -f7)
-echo $ced>>librois
-ced2=$(cat librois)
-tput cup 15 13; echo "Cedula:"
-tput cup 15 25; echo "$ced2"
-rm libross
-rm librois
-fi
-
-
-
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
-fi ;;
+;;
 
 4) 
 clear
@@ -306,6 +234,7 @@ fi
 
 ;;
 
+
 5)
 clear
 tput cup 3 3; echo "[1] Libros"
@@ -317,302 +246,272 @@ case $opcionn in
 
 1)
 clear
-tput cup 3 13;echo "Libros en biblioteca:"
-if test -e libros.txt
-then
-touch libross
-cp libros.txt libross
-librois=$(cat  libross | cut -d: -f2)
-echo $librois>>librois
-librois2=$(cat librois)
-tput cup 5 13; echo "ISBN:"
-tput cup 5 25; echo "$librois2"
+tput cup 3 13; echo "Libros en biblioteca:"
 
-rm libross
-rm librois
-
-touch libross
-cp libros.txt libross
-librotit=$(cat  libross | cut -d: -f3)
-echo $librotit>>librois
-librotit2=$(cat librois)
-tput cup 7 13; echo "Titulo:"
-tput cup 7 25; echo "$librotit2"
-rm libross
-rm librois
-
-touch libross
-cp libros.txt libross
-libroaut=$(cat  libross | cut -d: -f4)
-echo $libroaut>>librois
-libroaut2=$(cat librois)
-tput cup 9 13; echo "Autor:"
-tput cup 9 25; echo "$libroaut2"
-rm libross
-rm librois
-
-touch libross
-cp libros.txt libross
-libroasig=$(cat  libross | cut -d: -f5)
-echo $libroasig>>librois
-libroasig2=$(cat librois)
-tput cup 11 13; echo "Asignatura:"
-tput cup 11 25; echo "$libroasig2"
-rm libross
-rm librois
+if test -e libros.txt; then
+    tput cup 5 13; echo "ISBN           Título               Autor               Asignatura"
+    tput cup 6 13; echo "---------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5 }' libros.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay libros en la biblioteca"
 fi
 
+tput cup 17 13; echo "Libros prestados:"
 
-tput cup 17 13;echo "Libros prestados:"
-if test -e prestamosl.txt
-then
-touch libross
-cp prestamosl.txt libross
-librois=$(cat  libross | cut -d: -f2)
-echo $librois>>librois
-librois2=$(cat librois)
-tput cup 19 13; echo "ISBN:"
-tput cup 19 25; echo "$librois2"
-
-rm libross
-rm librois
-
-touch libross
-cp prestamosl.txt libross
-librotit=$(cat  libross | cut -d: -f3)
-echo $librotit>>librois
-librotit2=$(cat librois)
-tput cup 21 13; echo "Titulo:"
-tput cup 21 25; echo "$librotit2"
-rm libross
-rm librois
-
-touch libross
-cp prestamosl.txt libross
-libroaut=$(cat  libross | cut -d: -f4)
-echo $libroaut>>librois
-libroaut2=$(cat librois)
-tput cup 23 13; echo "Autor:"
-tput cup 23 25; echo "$libroaut2"
-rm libross
-rm librois
-
-touch libross
-cp prestamosl.txt libross
-libroasig=$(cat  libross | cut -d: -f5)
-echo $libroasig>>librois
-libroasig2=$(cat librois)
-tput cup 25 13; echo "Asignatura:"
-tput cup 25 25; echo "$libroasig2"
-rm libross
-rm librois
+if test -e prestamosl.txt; then
+    tput cup 19 13; echo "ISBN           Título               Autor               Asignatura"
+    tput cup 20 13; echo "---------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5 }' prestamosl.txt | {
+        j=21  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $j 13; echo "$line"
+            ((j++))
+        done
+    }
+else
+    tput cup 19 13; echo "No hay libros prestados"
 fi
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
+
+tput cup 30 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
 fi
 ;;
 
 2)
 clear
-tput cup 3 13;echo "Revistas:"
-if test -e revistas.txt
-then
-touch libross
-cp revistas.txt libross
-librois=$(cat  libross | cut -d: -f2)
-echo $librois>>librois
-librois2=$(cat librois)
-tput cup 5 13; echo "ISSN:"
-tput cup 5 25; echo "$librois2"
+tput cup 3 13; echo "Revistas en biblioteca:"
 
-rm libross
-rm librois
-
-touch libross
-cp revistas.txt libross
-librotit=$(cat  libross | cut -d: -f3)
-echo $librotit>>librois
-librotit2=$(cat librois)
-tput cup 7 13; echo "Titulo:"
-tput cup 7 25; echo "$librotit2"
-rm libross
-rm librois
-
-touch libross
-cp revistas.txt libross
-libroaut=$(cat  libross | cut -d: -f4)
-echo $libroaut>>librois
-libroaut2=$(cat librois)
-tput cup 9 13; echo "Autor:"
-tput cup 9 25; echo "$libroaut2"
-rm libross
-rm librois
+if test -e revistas.txt; then
+    tput cup 5 13; echo "ISSN           Título               Autor"
+    tput cup 6 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' revistas.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay revistas en la biblioteca"
 fi
 
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
+tput cup 17 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
 fi
 ;;
 
 3)
 clear
-tput cup 3 13;echo "Escritos:"
-if test -e escritos.txt
-then
-touch libross
-cp escritos.txt libross
-user=$(cat  libross | cut -d: -f2)
-echo $user>>librois
-user2=$(cat librois)
-tput cup 5 13; echo "Codigo:"
-tput cup 5 25; echo "$user2"
-rm libross
-rm librois
+tput cup 3 13; echo "Escritos en biblioteca:"
 
-touch libross
-cp escritos.txt libross
-ape=$(cat  libross | cut -d: -f3)
-echo $ape>>librois
-ape2=$(cat librois)
-tput cup 7 13; echo "Tema:"
-tput cup 7 25; echo "$ape2"
-rm libross
-rm librois
-
-touch libross
-cp escritos.txt libross
-dire=$(cat  libross | cut -d: -f4)
-echo $dire>>librois
-dire2=$(cat librois)
-tput cup 9 13; echo "Grupo:"
-tput cup 9 25; echo "$dire2"
-rm libross
-rm librois
-
-touch libross
-cp escritos.txt libross
-tel=$(cat  libross | cut -d: -f5)
-echo $tel>>librois
-tel2=$(cat librois)
-tput cup 11 13; echo "Asignatura:"
-tput cup 11 25; echo "$tel"
-rm libross
-rm librois
-
-touch libross
-cp escritos.txt libross
-ced=$(cat  libross | cut -d: -f6)
-echo $ced>>librois
-ced2=$(cat librois)
-tput cup 13 13; echo "Profesor:"
-tput cup 13 25; echo "$ced2"
-rm libross
-rm librois
+if test -e escritos.txt; then
+    tput cup 5 13; echo "Código         Tema                 Grupo                Asignatura          Profesor"
+    tput cup 6 13; echo "---------------------------------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-20s %-15s\n", $2, $3, $4, $5, $6 }' escritos.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay escritos en la biblioteca"
 fi
-read -p "Presione  [0] para regresar: " r
-if [ $r = 0 ]
-then
-clear
+
+tput cup 17 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
 fi
 ;;
 
 4)
 clear
-tput cup 3 13;echo "Videos para prestamo:"
-if test -e videos.txt
-then
-touch videoss
-cp videos.txt videoss
-videocod=$(cat  videoss | cut -d: -f2)
-echo $videocod>>videocod
-videocod2=$(cat  videocod)
-tput cup 5 13; echo "Codigo:"
-tput cup 5 25; echo "$videocod2"
+tput cup 3 13; echo "Videos para préstamo:"
 
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp videos.txt videoss
-videotit=$(cat   videoss | cut -d: -f3)
-echo $videotit>>videocod
-videotit2=$(cat  videocod)
-tput cup 7 13; echo "Titulo:"
-tput cup 7 25; echo "$videotit2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp videos.txt videoss
-videoaut=$(cat   videoss | cut -d: -f4)
-echo $videoaut>>videocod
-videoaut2=$(cat  videocod)
-tput cup 9 13; echo "Autor:"
-tput cup 9 25; echo "$videoaut2"
-
-rm videoss
-rm videocod
+if test -e videos.txt; then
+    tput cup 5 13; echo "Código         Título               Autor"
+    tput cup 6 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' videos.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay videos en la biblioteca"
 fi
 
-tput cup 17 13;echo "Videos  prestados:"
-if test -e prestamosv.txt
-then
-touch videoss
-cp prestamosv.txt videoss
-videocod=$(cat  videoss | cut -d: -f2)
-echo $videocod>>videocod
-videocod2=$(cat videocod)
-tput cup 19 13; echo "Codigo:"
-tput cup 19 25; echo "$videocod2"
+tput cup 17 13; echo "Videos prestados:"
 
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp prestamosv.txt videoss
-videotit=$(cat  videoss | cut -d: -f3)
-echo $videotit>>videocod
-videotit2=$(cat videocod)
-tput cup 21 13; echo "Titulo:"
-tput cup 21 25; echo "$videotit2"
-
-rm videoss
-rm videocod
-
-
-
-touch videoss
-cp prestamosv.txt videoss
-videoaut=$(cat  videoss | cut -d: -f4)
-echo $videoaut>>videocod
-videoaut2=$(cat videocod)
-tput cup 23 13; echo "Autor:"
-tput cup 23 25; echo "$videoaut2"
-
-rm videoss
-rm videocod
+if test -e prestamosv.txt; then
+    tput cup 19 13; echo "Código         Título               Autor"
+    tput cup 20 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' prestamosv.txt | {
+        j=21  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $j 13; echo "$line"
+            ((j++))
+        done
+    }
+else
+    tput cup 19 13; echo "No hay videos prestados"
 fi
 
-
-
-tput cup 25 3; echo "Presione  [0] para regresar: " 
-tput cup 25 31; read r
-if [ $r = 0 ]
-then
-clear
+tput cup 30 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
 fi
 ;;
+
+esac
+
+clear
+tput cup 3 3; echo "[1] Libros"
+tput cup 5 3; echo "[2] Revistas"
+tput cup 7 3; echo "[3] Escritos"
+tput cup 9 3; echo "[4] Videos"
+tput cup 11 3; read -p "Ingrese Opcion deseada: " opcionn
+case $opcionn in
+
+1)
+clear
+tput cup 3 13; echo "Libros en biblioteca:"
+
+if test -e libros.txt; then
+    tput cup 5 13; echo "ISBN           Título               Autor               Asignatura"
+    tput cup 6 13; echo "---------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5 }' libros.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay libros en la biblioteca"
+fi
+
+tput cup 17 13; echo "Libros prestados:"
+
+if test -e prestamosl.txt; then
+    tput cup 19 13; echo "ISBN           Título               Autor               Asignatura"
+    tput cup 20 13; echo "---------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-15s\n", $2, $3, $4, $5 }' prestamosl.txt | {
+        j=21  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $j 13; echo "$line"
+            ((j++))
+        done
+    }
+else
+    tput cup 19 13; echo "No hay libros prestados"
+fi
+
+tput cup 30 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
+fi
+;;
+
+2)
+clear
+tput cup 3 13; echo "Revistas en biblioteca:"
+
+if test -e revistas.txt; then
+    tput cup 5 13; echo "ISSN           Título               Autor"
+    tput cup 6 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' revistas.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay revistas en la biblioteca"
+fi
+
+tput cup 17 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
+fi
+;;
+
+3)
+clear
+tput cup 3 13; echo "Escritos en biblioteca:"
+
+if test -e escritos.txt; then
+    tput cup 5 13; echo "Código         Tema                 Grupo                Asignatura          Profesor"
+    tput cup 6 13; echo "---------------------------------------------------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s %-20s %-15s\n", $2, $3, $4, $5, $6 }' escritos.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay escritos en la biblioteca"
+fi
+
+tput cup 17 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
+fi
+;;
+
+4)
+clear
+tput cup 3 13; echo "Videos para préstamo:"
+
+if test -e videos.txt; then
+    tput cup 5 13; echo "Código         Título               Autor"
+    tput cup 6 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' videos.txt | {
+        i=7  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $i 13; echo "$line"
+            ((i++))
+        done
+    }
+else
+    tput cup 5 13; echo "No hay videos en la biblioteca"
+fi
+
+tput cup 17 13; echo "Videos prestados:"
+
+if test -e prestamosv.txt; then
+    tput cup 19 13; echo "Código         Título               Autor"
+    tput cup 20 13; echo "------------------------------------------"
+    awk -F: '{ printf "%-13s %-20s %-20s\n", $2, $3, $4 }' prestamosv.txt | {
+        j=21  # Inicializar la línea de impresión
+        while IFS= read -r line; do
+            tput cup $j 13; echo "$line"
+            ((j++))
+        done
+    }
+else
+    tput cup 19 13; echo "No hay videos prestados"
+fi
+
+tput cup 30 3; read -p "Presione [0] para regresar: " r
+if [ "$r" = "0" ]; then
+    clear
+fi
+;;
+
+
+
 
 
 
